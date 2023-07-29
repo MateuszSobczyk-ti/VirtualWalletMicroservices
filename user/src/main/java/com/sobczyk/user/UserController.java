@@ -13,7 +13,7 @@ public record UserController(UserService userService) {
 
     @PostMapping
     public void registerUser(@RequestBody UserRegistrationRequest userRegistrationRequest) {
-        log.info("new user registration {}", userRegistrationRequest);
+        log.info("new User registration {}", userRegistrationRequest);
         userService.register(userRegistrationRequest);
     }
 }
