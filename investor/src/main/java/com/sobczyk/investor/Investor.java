@@ -1,4 +1,4 @@
-package com.sobczyk.user;
+package com.sobczyk.investor;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "user_account")
-public class User {
+@Table(name = "investor_account")
+public class Investor {
 
     @Id
-    @SequenceGenerator(name = "user_id_sequence", sequenceName = "user_id_sequence")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_sequence")
+    @SequenceGenerator(name = "investor_id_sequence", sequenceName = "investor_id_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "investor_id_sequence")
     private Integer id;
     private String firstName;
     private String lastName;

@@ -1,6 +1,6 @@
-package com.sobczyk.user;
+package com.sobczyk.investor;
 
-public record UserRegistrationRequest(
+public record InvestorRegistrationRequest(
         String firstName,
         String lastName,
         String email) {
