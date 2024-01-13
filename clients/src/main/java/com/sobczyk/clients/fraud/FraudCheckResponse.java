@@ -1,4 +1,4 @@
-package com.sobczyk.investor;
+package com.sobczyk.clients.fraud;
 
 public record FraudCheckResponse(Boolean isFraudster) {
 }

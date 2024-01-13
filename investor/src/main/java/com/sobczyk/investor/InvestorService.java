@@ -1,15 +1,19 @@
 package com.sobczyk.investor;
 
+import com.sobczyk.clients.fraud.FraudCheckResponse;
+import com.sobczyk.clients.fraud.FraudClient;
+import com.sobczyk.clients.notification.NotificationClient;
+import com.sobczyk.clients.notification.NotificationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 @AllArgsConstructor
 public class InvestorService {
 
     private final InvestorRepository investorRepository;
-    private final RestTemplate restTemplate;
+    private final FraudClient fraudClient;
+    private final NotificationClient notificationClient;
 
     public void register(InvestorRegistrationRequest request) {
         Investor investor = Investor.builder()
@@ -18,10 +22,13 @@ public class InvestorService {
                 .email(request.email())
                 .build();
         investorRepository.saveAndFlush(investor);
-        FraudCheckResponse fraudCheckResponse = restTemplate.getForObject(
-                "http://localhost:8081/api/v1/fraud-check/" + investor.getId(),
-                FraudCheckResponse.class
-        );
+        FraudCheckResponse fraudCheckResponse = fraudClient.isFraudster(investor.getId());
+        notificationClient.sendNotification(NotificationRequest.builder()
+                .sender("Sobczyk")
+                .toCustomerEmail(investor.getEmail())
+                .firstName(investor.getFirstName())
+                .toCustomerId(investor.getId())
+                .build());
         if (fraudCheckResponse.isFraudster()) {
             throw new IllegalStateException("fraudster");
         }
